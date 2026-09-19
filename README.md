@@ -9,7 +9,7 @@ Given an equity portfolio, this engine calculates Value at Risk (VaR) and Expect
 - **Weights:** equal (1/6 each).
 - **Data:** daily adjusted close prices from Yahoo Finance via the `yfinance` Python library, from January 2015 to the latest completed trading day at download time. Prices are cached in `data/`.
 
-**To change the portfolio composition or the date range, edit `src/varengine/config.py`. To update the data to the latest close, call `load_prices(..., refresh=True)` once: the cache otherwise keeps the current snapshot, so results stay reproducible.**
+**To change the portfolio composition or the date range, edit `src/varengine/config.py`. To update the data to the latest close, run `notebooks/00_load_prices.ipynb`, which downloads a fresh snapshot with `load_prices(..., refresh=True)`, then re-run the other notebooks. Otherwise the cache keeps the existing snapshot, so results stay reproducible.**
 
 ## Modelling conventions
 
@@ -39,6 +39,7 @@ The engine also computes Euler risk contributions, which show how much of the po
 ```
 market-risk-engine/
 ├── notebooks/
+│   ├── 00_load_prices.ipynb             # download or refresh the price snapshot
 │   ├── 01_returns_and_losses.ipynb      # data, returns, stylised facts
 │   ├── 02_historical_simulation.ipynb   # historical simulation and first backtest
 │   └── 03_parametric_and_mc.ipynb       # parametric, EWMA, filtered HS, Monte Carlo
