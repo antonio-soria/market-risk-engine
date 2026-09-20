@@ -67,7 +67,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Then open the notebooks in order. The first run downloads prices and caches them in `data/`.
+Then open the notebooks in order. The first run downloads prices and caches them in `data/`. It should be ran after building the portfolio and selecting the date range used by editing `src/varengine/config.py`.
 
 ## Quick example
 
