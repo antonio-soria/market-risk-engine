@@ -1,7 +1,8 @@
+"""Price download and local caching."""
+
 from pathlib import Path
 
 import pandas as pd
-import yfinance as yf
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
@@ -9,8 +10,23 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 def load_prices(tickers, start, end=None, cache="prices.csv", refresh=False):
     """Adjusted close prices, downloaded once and cached to CSV.
 
-    end=None downloads up to the latest completed trading day. The cache
-    freezes that snapshot: pass refresh=True to download a newer one.
+    Parameters
+    ----------
+    tickers : list of str
+        Yahoo Finance symbols, e.g. ``["SAN.MC", "BBVA.MC"]``.
+    start, end : str or None
+        Sample bounds. ``end=None`` downloads up to the latest completed
+        trading day.
+    cache : str
+        File name inside ``data/``. The cache freezes the snapshot so that
+        results stay reproducible.
+    refresh : bool
+        Ignore the cache and download again.
+
+    Returns
+    -------
+    pandas.DataFrame
+        One column per ticker, in the order requested, indexed by date.
     """
     path = DATA_DIR / cache
     if path.exists() and not refresh:
@@ -20,6 +36,10 @@ def load_prices(tickers, start, end=None, cache="prices.csv", refresh=False):
                              "Call load_prices(..., refresh=True).")
         print(f"Loaded cached prices: {px.index[0].date()} to {px.index[-1].date()}")
         return px[tickers]
+
+    # Imported here, not at module level: yfinance is only needed to download,
+    # so `import varengine` works without it and the tests stay offline.
+    import yfinance as yf
 
     px = yf.download(tickers, start=start, end=end, auto_adjust=True,
                      progress=False, threads=False)["Close"]
