@@ -1,3 +1,4 @@
+![tests](https://github.com/antonio-soria/market-risk-engine/actions/workflows/tests.yml/badge.svg)
 # Market Risk Engine
 
 Given an equity portfolio, this engine calculates Value at Risk (VaR) and Expected Shortfall (ES) measures. It produces one-day risk forecasts with historical, parametric and Monte Carlo models, and backtests them against realised losses. For every trading day in the test period, the engine uses only information available at the previous close to forecast tomorrow's 99% VaR and ES. It then compares those forecasts with the realised losses. Everything is built in Python.
